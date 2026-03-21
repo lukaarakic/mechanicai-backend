@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_20_140010) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_21_142310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -22,7 +22,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_140010) do
     t.integer "power"
     t.integer "size"
     t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
     t.integer "year"
+    t.index ["user_id"], name: "index_cars_on_user_id"
   end
 
   create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -31,7 +33,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_140010) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
     t.index ["car_id"], name: "index_chats_on_car_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -43,6 +47,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_140010) do
     t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "confirmation_sent_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "created_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "jti"
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.string "unconfirmed_email"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["jti"], name: "index_users_on_jti"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "cars", "users"
   add_foreign_key "chats", "cars"
+  add_foreign_key "chats", "users"
   add_foreign_key "messages", "chats"
 end

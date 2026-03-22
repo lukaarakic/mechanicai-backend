@@ -43,6 +43,7 @@
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.9, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="base64 (v0.3.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.22, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt_pbkdf (v1.1.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bigdecimal (v4.0.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.23.0, ruby-3.4.9-p82) [gem]" level="application" />
@@ -75,6 +76,7 @@
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.17.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v2.19.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json-schema (v6.2.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jwt (v2.10.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="kamal (v2.11.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="language_server-protocol (v3.17.0.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lint_roller (v1.1.0, ruby-3.4.9-p82) [gem]" level="application" />
@@ -123,6 +125,10 @@
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v7.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.11.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="reline (v0.6.3, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="roda (v3.102.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rodauth (v2.43.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rodauth-model (v0.4.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rodauth-rails (v2.1.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.85.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.49.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.26.1, ruby-3.4.9-p82) [gem]" level="application" />
@@ -132,6 +138,8 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.13.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.3.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sequel (v5.102.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sequel-activerecord_connection (v2.0.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cable (v3.0.12, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cache (v1.0.10, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_queue (v1.3.2, ruby-3.4.9-p82) [gem]" level="application" />
@@ -139,6 +147,7 @@
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.5.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thruster (v0.1.19, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tilt (v2.7.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.6.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tsort (v0.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, ruby-3.4.9-p82) [gem]" level="application" />

@@ -2,7 +2,7 @@ require "openai"
 
 class Api::V1::MessagesController < ApplicationController
   def create
-    chat = Chat.find(params[:chat_id])
+    chat = current_account.chats.find(params[:chat_id])
 
     user_message_count = chat.messages.where(role: "user").count
     puts "USER MESSAGE COUNT: #{user_message_count}"

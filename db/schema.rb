@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_22_174722) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_23_002747) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -35,7 +35,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_174722) do
   end
 
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "avatar"
     t.citext "email", null: false
+    t.string "first_name"
+    t.string "last_name"
     t.string "password_hash"
     t.integer "status", default: 1, null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, where: "(status = ANY (ARRAY[1, 2]))"
@@ -43,21 +46,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_174722) do
   end
 
   create_table "cars", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id"
     t.datetime "created_at", null: false
+    t.boolean "default_car"
     t.string "make"
     t.string "model"
     t.integer "power"
     t.integer "size"
     t.datetime "updated_at", null: false
     t.integer "year"
+    t.index ["account_id"], name: "index_cars_on_account_id"
   end
 
   create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id"
     t.uuid "car_id", null: false
     t.string "category"
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_chats_on_account_id"
     t.index ["car_id"], name: "index_chats_on_car_id"
   end
 
@@ -73,6 +81,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_174722) do
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
+  add_foreign_key "cars", "accounts"
+  add_foreign_key "chats", "accounts"
   add_foreign_key "chats", "cars"
   add_foreign_key "messages", "chats"
 end

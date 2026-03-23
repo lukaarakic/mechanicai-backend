@@ -68,3 +68,6 @@ gem "bcrypt", "~> 3.1", require: false
 gem "jwt", "~> 2.9", require: false
 # Used by Rodauth for rendering built-in view and email templates
 gem "tilt", "~> 2.4", require: false
+
+gem "pay", "~> 11.4"
+gem "paddle", "~> 2.7.1"

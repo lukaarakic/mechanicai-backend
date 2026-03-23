@@ -7,6 +7,11 @@ Rails.application.routes.draw do
       resources :chats, only: [ :index, :create, :destroy, :show ] do
         resources :messages, only: [ :create ]
       end
+
+      resources :accounts, only: [] do
+        post 'payment/subscribe', to: "payment#subscribe"
+        delete 'payment/cancel', to: "payment#cancel"
+      end
     end
   end
 end

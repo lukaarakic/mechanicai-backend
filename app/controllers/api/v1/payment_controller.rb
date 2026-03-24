@@ -12,16 +12,4 @@ class Api::V1::PaymentController < ApplicationController
   rescue => e
     render json: { errors: e.message }, status: :unprocessable_entity
   end
-
-  def cancel
-    subscription = current_account.payment_processor.subscription
-
-    if subscription.nil? || subscription.canceled?
-      return render json: { errors: "No active subscription found." }, status: :unprocessable_entity
-    end
-
-    subscription.cancel
-
-    render json: { message: "Subscription canceled" }, status: :ok
-  end
 end

@@ -11,6 +11,8 @@ class RodauthMain < Rodauth::Rails::Auth
     db Sequel.postgres(extensions: :activerecord_connection, keep_reference: false)
     convert_token_id_to_integer? { Account.columns_hash["id"].type == :integer }
 
+    email_from "MechanicAI <noreply@lukarakic.me>"
+
     # Change prefix of table and foreign key column names from default "account"
     # accounts_table :users
     # verify_account_table :user_verification_keys

@@ -54,6 +54,7 @@
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.3.6, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v3.0.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.5.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.11.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dotenv (v3.2.0, ruby-3.4.9-p82) [gem]" level="application" />
@@ -70,6 +71,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.12.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.3.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="httparty (v0.24.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.8, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_processing (v1.14.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.8.2, ruby-3.4.9-p82) [gem]" level="application" />
@@ -89,6 +91,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v6.0.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_xml (v0.8.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.4.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-http (v0.9.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.6.3, ruby-3.4.9-p82) [gem]" level="application" />
@@ -101,8 +104,10 @@
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.19.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ostruct (v0.6.3, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="paddle (v2.7.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.27.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.10.2, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pay (v11.4.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.6.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pp (v0.6.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="prettyprint (v0.2.0, ruby-3.4.9-p82) [gem]" level="application" />
@@ -125,6 +130,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v7.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.11.3, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="reline (v0.6.3, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="resend (v1.0.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="roda (v3.102.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rodauth (v2.43.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rodauth-model (v0.4.0, ruby-3.4.9-p82) [gem]" level="application" />

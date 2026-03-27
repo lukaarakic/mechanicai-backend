@@ -143,7 +143,7 @@ GEM
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
-    jwt (2.10.2)
+    jwt (3.1.2)
       base64
     kamal (2.11.0)
       activesupport (>= 7.0)
@@ -387,7 +387,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   image_processing (~> 1.2)
-  jwt (~> 2.9)
+  jwt (~> 3.1)
   kamal
   paddle (~> 2.7.1)
   pay (~> 11.4)

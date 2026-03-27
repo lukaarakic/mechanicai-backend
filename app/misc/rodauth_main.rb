@@ -3,15 +3,23 @@ require "sequel/core"
 class RodauthMain < Rodauth::Rails::Auth
   configure do
     # List of authentication features that are loaded.
-    enable :create_account, :verify_account, :verify_account_grace_period,
-      :login, :logout, :jwt,
-      :reset_password, :change_password, :change_login, :verify_login_change,
-      :close_account
+      enable :create_account, :verify_account,
+        :login, :logout, :jwt,
+        :reset_password, :change_password, :change_login, :verify_login_change,
+        :close_account, :json
 
     db Sequel.postgres(extensions: :activerecord_connection, keep_reference: false)
-    convert_token_id_to_integer? { Account.columns_hash["id"].type == :integer }
+    convert_token_id_to_integer? false
+
 
     email_from "MechanicAI <noreply@lukarakic.me>"
+    base_url do
+      "http://localhost:3000"
+    end
+
+    verify_account_email_link do
+      "#{base_url}/verify?key=#{token_param_value(verify_account_key_value)}"
+    end
 
     # Change prefix of table and foreign key column names from default "account"
     # accounts_table :users

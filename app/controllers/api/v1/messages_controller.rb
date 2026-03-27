@@ -85,7 +85,6 @@ class Api::V1::MessagesController < ApplicationController
     ai_content = response.dig("choices", 0, "message", "content")
     parsed = JSON.parse(ai_content)
 
-    puts parsed
 
     chat.update(title: parsed["title"], category: parsed["category"]) if chat.title.nil? && parsed["title"].present?
 

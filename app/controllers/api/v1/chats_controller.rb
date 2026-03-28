@@ -4,7 +4,8 @@ class Api::V1::ChatsController < ApplicationController
     chat.account_id = rodauth.account_id
 
     if chat.save
-      render json: chat, status: :created
+      ai_message = ::DiagnosticMessageService.new(chat).call(params[:chat][:message])
+      render json: { chat: chat, message: ai_message }, status: :created
     else
       render json: { errors: car.errors }, status: :unprocessable_entity
     end

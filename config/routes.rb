@@ -12,7 +12,8 @@ Rails.application.routes.draw do
 
       resources :accounts, only: [] do
         post 'payment/subscribe', to: "payment#subscribe"
-        delete 'payment/cancel', to: "payment#cancel"
+        post 'payment/cancel', to: "payment#cancel"
+        get  "payment/subscription", to: "payment#status"
       end
     end
   end

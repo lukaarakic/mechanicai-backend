@@ -21,7 +21,7 @@ class Api::V1::MessagesController < ApplicationController
     when 0
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
-        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}kw.
+        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}hp.
         The user just described their problem. Do NOT diagnose yet.
         Ask ONE single smart diagnostic question. Keep it short and conversational.
         Set title and category to null.
@@ -30,7 +30,7 @@ class Api::V1::MessagesController < ApplicationController
     when 1
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
-        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}kw.
+        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}hp.
         You already asked one question. Do NOT diagnose yet.
         Ask ONE more targeted diagnostic question. Keep it short and conversational.
         Set title and category to null.
@@ -39,7 +39,7 @@ class Api::V1::MessagesController < ApplicationController
     when 2
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
-        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}kw.
+        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}hp.
         You have asked two questions. You MUST ask ONE final question before diagnosing.
         Do NOT diagnose yet under any circumstances. Keep it short and conversational.
         Set title and category to null.
@@ -48,7 +48,7 @@ class Api::V1::MessagesController < ApplicationController
     when 3
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
-        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}kw.
+        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}hp.
         You have gathered enough information. Provide a full diagnosis.
         Set title to a short descriptive title max 8 words.
         Set category to exactly one of: SUSPENSION, ENGINE, BRAKES, TRANSMISSION, STEERING, BATTERY, FUEL_SYSTEM, COOLING, ELECTRICAL, EXHAUST, TIRES, SENSORS, UNKNOWN.
@@ -58,7 +58,7 @@ class Api::V1::MessagesController < ApplicationController
     else
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
-        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}kw.
+        The user is driving a #{chat.car.year} #{chat.car.make} #{chat.car.model}, #{chat.car.size}cc, #{chat.car.power}hp.
         You already provided a diagnosis. Answer the user's follow up question in markdown.
         Set title and category to null.
         Respond with a JSON object with keys: title, category, content.

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "current-user", to: "users#current_user"
       patch "onboard", to: "users#onboard"
+      patch "update-user", to: "users#update_user"
       resources :cars
       resources :chats, only: [ :index, :create, :destroy, :show ] do
         resources :messages, only: [ :create ]

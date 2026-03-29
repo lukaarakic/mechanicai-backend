@@ -4,7 +4,19 @@ class Api::V1::UsersController < ApplicationController
       render json: { errors: ["Account not found"] }, status: :not_found
     end
 
-    render json: current_account.as_json(only: [:id, :first_name, :last_name, :email, :avatar, :onboarding_done]), status: :ok
+    render json: current_account.as_json(only: [ :id, :first_name, :last_name, :email, :avatar, :onboarding_done ]), status: :ok
+  end
+
+  def update_user
+
+    if current_account.update(update_params)
+      render json: current_account, status: :ok
+    else
+      render json: { errors: ["Something went wrong"] }, status: :unprocessable_entity
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: ["User not found"] }, status: :not_found
   end
 
   def onboard
@@ -22,5 +34,9 @@ class Api::V1::UsersController < ApplicationController
   private
   def onboard_params
     params.permit(profile: [ :first_name, :last_name, :avatar, :onboarding_done ], car: [ :make, :model, :year, :power, :size ])
+  end
+
+  def update_params
+    params.permit(:first_name, :last_name )
   end
 end

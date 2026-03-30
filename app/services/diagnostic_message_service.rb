@@ -1,8 +1,9 @@
 require "openai"
 
 class DiagnosticMessageService
-  def initialize(chat)
+  def initialize(chat, is_subscribed)
     @chat = chat
+    @is_subscribed = is_subscribed
   end
 
   def call(content)
@@ -19,24 +20,37 @@ class DiagnosticMessageService
 
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
 
+    model = @is_subscribed ? "gpt-5.4-mini" : "gpt-5.4-nano"
+
     response = client.chat(
       parameters: {
-        model: "gpt-4o",
+        model: model,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: system_prompt },
           *history,
           *extra_reminder
         ],
-        max_tokens: 500
+        max_completion_tokens: @is_subscribed ? 2048 : 4096
       }
     )
 
     parsed = JSON.parse(response.dig("choices", 0, "message", "content"))
 
     @chat.update(title: parsed["title"], category: parsed["category"]) if @chat.title.nil? && parsed["title"].present?
-
     @chat.messages.create!(role: "assistant", content: parsed["content"])
+
+  rescue Faraday::BadRequestError => e
+    puts "🚨 OPENAI REJECTED THE REQUEST!"
+    puts e.response[:body]
+  rescue JSON::ParserError => e
+    puts "🚨 THE AI RETURNED INVALID JSON: #{e.message}"
+    puts "Raw output was: #{raw_content}"
+  rescue ActiveRecord::RecordInvalid => e
+    puts "🚨 DATABASE VALIDATION FAILED: #{e.message}"
+  rescue StandardError => e
+    puts "🚨 RUBY CRASHED: #{e.class} - #{e.message}"
+    puts e.backtrace.first(5)
   end
 
   private
@@ -77,11 +91,22 @@ class DiagnosticMessageService
       <<~PROMPT
         You are an expert automotive mechanic with 20+ years of experience.
         The user is driving a #{car_info}.
-        You have gathered enough information. Provide a full diagnosis.
-        Set title to a short descriptive title max 8 words.
-        Set category to exactly one of: SUSPENSION, ENGINE, BRAKES, TRANSMISSION, STEERING, BATTERY, FUEL_SYSTEM, COOLING, ELECTRICAL, EXHAUST, TIRES, SENSORS, UNKNOWN.
-        Write content in markdown with these sections: ## Most Likely Causes, ## Severity, ## Can You Fix This Yourself?, ## Estimated Repair Cost.
-        Respond with a JSON object with keys: title, category, content.
+        
+        You have gathered enough information. You MUST now provide a final, definitive diagnosis. 
+        UNDER NO CIRCUMSTANCES should you ask any more diagnostic questions. 
+  
+        Respond strictly with a JSON object with the following keys:
+        - title: A short descriptive title (max 8 words).
+        - category: Exactly one of: SUSPENSION, ENGINE, BRAKES, TRANSMISSION, STEERING, BATTERY, FUEL_SYSTEM, COOLING, ELECTRICAL, EXHAUST, TIRES, SENSORS, UNKNOWN.
+        - content: Your full diagnosis formatted in Markdown. The content string MUST be structured with exactly these four headers:
+          ## Most Likely Causes
+          [Text here]
+          ## Severity
+          [Text here]
+          ## Can You Fix This Yourself?
+          [Text here]
+          ## Estimated Repair Cost
+          [Text here]
       PROMPT
     else
       <<~PROMPT

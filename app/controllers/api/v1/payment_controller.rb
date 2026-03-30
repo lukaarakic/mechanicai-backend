@@ -16,26 +16,26 @@ class Api::V1::PaymentController < ApplicationController
       render json: { subscribed: false }
     end
   rescue => e
-    render json: { errors: e.message }, status: :unprocessable_entity
+    render json: { error: e.message }, status: :unprocessable_entity
   end
   def subscribe
     current_account.payment_processor.api_record
     processor = current_account.payment_processor
 
     if processor.subscribed?
-      return render json: { errors: "Already Subscribed" }, status: :unprocessable_entity
+      return render json: { error: "Already Subscribed" }, status: :unprocessable_entity
     end
 
 
     render json: { customer_id: processor.processor_id }
   rescue => e
-    render json: { errors: e.message }, status: :unprocessable_entity
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def cancel
     current_account.payment_processor.subscription.cancel
     render json: { success: true }
   rescue => e
-    render json: { errors: e.message }, status: :unprocessable_entity
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 end

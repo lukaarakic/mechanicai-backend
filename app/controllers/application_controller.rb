@@ -9,4 +9,8 @@ class ApplicationController < ActionController::API
   def current_account
     @current_account ||= Account.find(rodauth.account_id)
   end
+
+  def is_subscribed
+    @subscribed = current_account.payment_processor.subscribed?
+  end
 end

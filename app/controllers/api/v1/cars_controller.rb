@@ -1,12 +1,17 @@
 class Api::V1::CarsController < ApplicationController
   def create
+    unless is_subscribed && current_account.cars.length != 0
+      render json: { error: "Upgrade to Pro plan add more cars" }, status: :unprocessable_entity
+      return
+    end
+
     car = Car.new(car_params)
     car.account_id = rodauth.account_id
 
     if car.save
       render json: car, status: :created
     else
-      render json: { errors: car.errors }, status: :unprocessable_entity
+      render json: { error: car.errors }, status: :unprocessable_entity
     end
   end
 
@@ -14,7 +19,7 @@ class Api::V1::CarsController < ApplicationController
     car = current_account.cars.find(params[:id])
     render json: car, status: :ok
   rescue ActiveRecord::RecordNotFound
-    render json: { errors: "Car not found" }, status: :not_found
+    render json: { error: "Car not found" }, status: :not_found
   end
 
   def index
@@ -28,10 +33,10 @@ class Api::V1::CarsController < ApplicationController
     if car.update(car_params)
       render json: car, status: :ok
     else
-      render json: { errors: car.errors }, status: :unprocessable_entity
+      render json: { error: car.errors }, status: :unprocessable_entity
     end
   rescue ActiveRecord::RecordNotFound
-    render json: { errors: "Car not found" }, status: :not_found
+    render json: { error: "Car not found" }, status: :not_found
   end
 
   def destroy
@@ -40,7 +45,7 @@ class Api::V1::CarsController < ApplicationController
       render json: car, status: :ok
     end
   rescue ActiveRecord::RecordNotFound
-    render json: { errors: "Car not found" }, status: :not_found
+    render json: { error: "Car not found" }, status: :not_found
   end
 
   private

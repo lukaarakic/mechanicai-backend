@@ -5,8 +5,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # List of authentication features that are loaded.
       enable :create_account, :verify_account,
         :login, :logout, :jwt,
-        :reset_password, :change_password, :change_login, :verify_login_change,
-        :close_account, :json
+        :reset_password, :change_password, :json
 
     db Sequel.postgres(extensions: :activerecord_connection, keep_reference: false)
     convert_token_id_to_integer? false
@@ -19,6 +18,10 @@ class RodauthMain < Rodauth::Rails::Auth
 
     verify_account_email_link do
       "#{base_url}/verify?key=#{token_param_value(verify_account_key_value)}"
+    end
+
+    reset_password_email_link do
+      "#{base_url}/reset-password?key=#{token_param_value(reset_password_key_value)}"
     end
 
     # Change prefix of table and foreign key column names from default "account"

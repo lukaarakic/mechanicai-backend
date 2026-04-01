@@ -1,1 +1,1 @@
-Resend.api_key = Rails.application.credentials.resend_api_key
+Resend.api_key = ENV["RESEND_API_KEY"]

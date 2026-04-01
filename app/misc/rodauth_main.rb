@@ -13,7 +13,7 @@ class RodauthMain < Rodauth::Rails::Auth
 
     email_from "MechanicAI <noreply@lukarakic.me>"
     base_url do
-      "http://localhost:3000"
+      ENV["FRONTEND_URL"]
     end
 
     verify_account_email_link do
@@ -35,7 +35,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # hmac_secret "2a744ff713027a68c1c7f7f03458de6da2c045d846e4ecf26f41ad83b0773bc992d38e0f4efead2a5a447970551ceb1cb8e4cb5bbd01115dd0bb8021e6c4acb7"
 
     # Set JWT secret, which is used to cryptographically protect the token.
-    jwt_secret { Rails.application.credentials.jwt_secret! }
+    jwt_secret { ENV["JWT_SECRET"] }
 
     # Accept only JSON requests.
     only_json? true

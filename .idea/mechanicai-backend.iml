@@ -63,13 +63,11 @@
     <orderEntry type="library" scope="PROVIDED" name="ed25519 (v1.4.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erb (v6.0.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.4.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="event_stream_parser (v1.0.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday (v2.14.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-multipart (v1.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-net_http (v3.4.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.3, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.12.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.3.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="httparty (v0.24.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.8, ruby-3.4.9-p82) [gem]" level="application" />
@@ -78,6 +76,7 @@
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.17.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v2.19.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json-schema (v6.2.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jsonapi-serializer (v2.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jwt (v2.10.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="kamal (v2.11.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="language_server-protocol (v3.17.0.5, ruby-3.4.9-p82) [gem]" level="application" />
@@ -115,7 +114,6 @@
     <orderEntry type="library" scope="PROVIDED" name="psych (v5.3.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v7.0.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v7.2.0, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="raabro (v1.4.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="racc (v1.8.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v3.2.5, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-session (v2.1.1, ruby-3.4.9-p82) [gem]" level="application" />
@@ -146,9 +144,6 @@
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sequel (v5.102.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sequel-activerecord_connection (v2.0.1, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="solid_cable (v3.0.12, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="solid_cache (v1.0.10, ruby-3.4.9-p82) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="solid_queue (v1.3.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.25.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.5.0, ruby-3.4.9-p82) [gem]" level="application" />

@@ -81,7 +81,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
-    bigdecimal (4.0.1)
+    bigdecimal (4.1.0)
     bootsnap (1.23.0)
       msgpack (~> 1.2)
     brakeman (8.0.4)
@@ -269,7 +269,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
-    resend (1.0.1)
+    resend (1.1.0)
       httparty (>= 0.21.0)
     roda (3.102.0)
       rack
@@ -375,7 +375,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 8.1.2)
-  resend (~> 1.0)
+  resend (~> 1.1)
   rodauth-rails (~> 2.1)
   rubocop-rails-omakase
   ruby-openai

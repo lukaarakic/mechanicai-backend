@@ -69,7 +69,7 @@ gem "jwt", "~> 2.9", require: false
 # Used by Rodauth for rendering built-in view and email templates
 gem "tilt", "~> 2.4", require: false
 
-gem "pay", "~> 11.4"
+gem "pay", "~> 11.6"
 gem "paddle", "~> 2.7.1"
 gem "resend", "~> 1.0"
 gem "jsonapi-serializer"

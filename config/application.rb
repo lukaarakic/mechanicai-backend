@@ -12,5 +12,6 @@ module MechanicaiBackend
     config.autoload_lib(ignore: %w[assets tasks])
     config.api_only = true
     config.autoload_paths << Rails.root.join("app/services")
+    config.middleware.use Rack::Attack
   end
 end

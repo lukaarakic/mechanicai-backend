@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.2"
+gem "rails", "~> 8.1.2", ">= 8.1.2.1"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -37,6 +37,8 @@ gem "image_processing", "~> 1.2"
 
 gem "ruby-openai"
 gem "dotenv-rails", groups: [:development, :test]
+gem "rack-attack", "~> 6.8"
+gem "action_text-trix", ">= 2.1.18"
 
 
 group :development, :test do
@@ -51,6 +53,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "mcp", ">= 0.9.2", require: false
 end
 
 gem "rodauth-rails", "~> 2.1"
@@ -60,14 +63,8 @@ gem "sequel-activerecord_connection", "~> 2.0", require: false
 gem "bcrypt", "~> 3.1", require: false
 # Used by Rodauth for rendering built-in view and email templates
 gem "tilt", "~> 2.4", require: false
-# Enables Sequel to use Active Record's database connection
-gem "sequel-activerecord_connection", "~> 2.0", require: false
-# Used by Rodauth for password hashing
-gem "bcrypt", "~> 3.1", require: false
 # Used by Rodauth for JWT support
 gem "jwt", "~> 2.9", require: false
-# Used by Rodauth for rendering built-in view and email templates
-gem "tilt", "~> 2.4", require: false
 
 gem "pay", "~> 11.4"
 gem "paddle", "~> 2.7.1"

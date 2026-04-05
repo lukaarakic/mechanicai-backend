@@ -41,16 +41,17 @@ class DiagnosticMessageService
     @chat.messages.create!(role: "assistant", content: parsed["content"])
 
   rescue Faraday::BadRequestError => e
-    puts "🚨 OPENAI REJECTED THE REQUEST!"
-    puts e.response[:body]
+    Rails.logger.error("OpenAI rejected request for chat=#{@chat.id}: #{e.class} #{e.message}")
+    raise
   rescue JSON::ParserError => e
-    puts "🚨 THE AI RETURNED INVALID JSON: #{e.message}"
-    puts "Raw output was: #{raw_content}"
+    Rails.logger.error("OpenAI returned invalid JSON for chat=#{@chat.id}: #{e.class} #{e.message}")
+    raise
   rescue ActiveRecord::RecordInvalid => e
-    puts "🚨 DATABASE VALIDATION FAILED: #{e.message}"
+    Rails.logger.error("Database validation failed for chat=#{@chat.id}: #{e.class} #{e.message}")
+    raise
   rescue StandardError => e
-    puts "🚨 RUBY CRASHED: #{e.class} - #{e.message}"
-    puts e.backtrace.first(5)
+    Rails.logger.error("Diagnostic message service crashed for chat=#{@chat.id}: #{e.class} #{e.message}")
+    raise
   end
 
   private

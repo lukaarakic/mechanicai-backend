@@ -15,8 +15,9 @@ class Api::V1::PaymentController < ApplicationController
     else
       render json: { subscribed: false }
     end
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("Payment status failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")
+    render json: { error: "Unable to fetch subscription status" }, status: :internal_server_error
   end
   def subscribe
     current_account.payment_processor.api_record
@@ -28,14 +29,16 @@ class Api::V1::PaymentController < ApplicationController
 
 
     render json: { customer_id: processor.processor_id }
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("Payment subscribe failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")
+    render json: { error: "Unable to start subscription" }, status: :internal_server_error
   end
 
   def cancel
     current_account.payment_processor.subscription.cancel
     render json: { success: true }
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("Payment cancel failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")
+    render json: { error: "Unable to cancel subscription" }, status: :internal_server_error
   end
 end

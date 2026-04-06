@@ -1,19 +1,19 @@
 # 🛠️ MechanicAI — Backend API
 
-### *AI-Driven Vehicle Diagnostics — Rails API*
+### *AI-Driven Vehicle Diagnostics — Rails 8 API*
 
-**MechanicAI** is a Rails 8 API-only backend powering an AI mechanic platform. Users describe their car problems through a conversational interface, and the system uses a progressive diagnostic flow — asking targeted questions before delivering a structured diagnosis powered by GPT-4o.
+**MechanicAI** is a professional-grade Rails 8 API powering an intelligent conversational vehicle diagnostic platform. By combining **GPT-5** with a targeted diagnostic state machine and a subscription-based model, it provides users with high-accuracy vehicle troubleshooting, severity assessments, and repair cost estimations.
 
 ---
 
 ## 🚀 Technical Highlights
 
-- **Progressive AI Diagnostics:** Custom-engineered prompt system using the OpenAI API. The AI asks up to 3 targeted diagnostic questions before delivering a structured diagnosis including causes, severity, DIY feasibility, and estimated repair cost.
-- **JWT Authentication:** Devise + devise-jwt for stateless, token-based auth with JTI revocation strategy.
-- **Email Confirmation:** Devise confirmable module with support for transactional email providers.
-- **RESTful API Design:** Versioned API (`/api/v1/`) with namespaced controllers and nested resources.
-- **UUID Primary Keys:** All tables use UUIDs for security and scalability.
-- **Multi-model Relationships:** Users → Cars → Chats → Messages with proper foreign key constraints and dependent destroy callbacks.
+* **Advanced Authentication (Rodauth):** Uses Rodauth for secure, low-overhead JWT authentication. JWT generation and account management are handled internally for maximum security.
+* **Progressive AI Diagnostic Flow:** A "3-question then diagnose" logic ensures context-aware AI responses. The system gathers specifics before delivering a technical breakdown.
+* **Rich Markdown Responses:** The AI generates structured reports including technical causes, severity levels, and cost estimates, pre-formatted for frontend rendering.
+* **Monetization Ready:** Built-in subscription management logic (`subscribe`, `cancel`, `status`) to gate premium AI features and diagnostic reports.
+* **UUID Architecture:** Native PostgreSQL UUIDs across all tables to prevent ID enumeration and improve database scalability.
+* **Health Monitoring:** Includes Rails 8 `/up` health check for zero-downtime deployment monitoring.
 
 ---
 
@@ -21,94 +21,98 @@
 
 ![Rails](https://img.shields.io/badge/Rails-8.1-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
 ![Ruby](https://img.shields.io/badge/Ruby-3.4-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=for-the-badge&logo=openai&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
----
-
-## 📐 Data Model
-
-```
-User
- ├── has_many :cars
- └── has_many :chats
-      Car
-       └── has_many :chats
-            Chat
-             ├── belongs_to :user
-             ├── belongs_to :car
-             └── has_many :messages
-                  Message
-                   └── belongs_to :chat
-```
+![Rodauth](https://img.shields.io/badge/Rodauth-Auth-7b0607?style=for-the-badge&logo=ruby&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--5-412991?style=for-the-badge&logo=openai&logoColor=white)
 
 ---
 
 ## 🔌 API Endpoints
 
-### Auth
+### 🔑 Authentication & Profile
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/register` | Register a new user |
-| POST | `/api/v1/login` | Login, returns JWT in `Authorization` header |
-| DELETE | `/api/v1/logout` | Logout, revokes JWT |
+|:-------|:---------|:------------|
+| POST | `/api/v1/login` | Login & receive JWT (Rodauth) |
+| GET | `/api/v1/current-user` | Get current authenticated user details |
+| PATCH | `/api/v1/onboard` | Complete initial user setup |
+| PATCH | `/api/v1/update-user` | Update profile information |
 
-### Cars
+### 🚗 Garage (Cars)
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|:-------|:---------|:------------|
 | GET | `/api/v1/cars` | List all cars for current user |
-| POST | `/api/v1/cars` | Create a car |
-| GET | `/api/v1/cars/:id` | Get a car |
-| PATCH | `/api/v1/cars/:id` | Update a car |
-| DELETE | `/api/v1/cars/:id` | Delete a car |
+| POST | `/api/v1/cars` | Add a new car to the garage |
+| GET | `/api/v1/cars/:id` | Get specific car details |
+| PATCH | `/api/v1/cars/:id` | Update car info (Year/Make/Model) |
+| DELETE | `/api/v1/cars/:id` | Remove car from garage |
 
-### Chats
+### 💬 Diagnostics (Chats & Messages)
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/chats` | List all chats |
-| POST | `/api/v1/chats` | Create a chat for a car |
-| GET | `/api/v1/chats/:id` | Get chat with messages |
-| DELETE | `/api/v1/chats/:id` | Delete a chat |
+|:-------|:---------|:------------|
+| GET | `/api/v1/chats` | List user's diagnostic history |
+| POST | `/api/v1/chats` | Start a new AI diagnostic session |
+| GET | `/api/v1/chats/:id` | Get full chat history + AI diagnosis |
+| POST | `/api/v1/chats/:id/messages` | Send user reply; triggers next AI response |
 
-### Messages
+### 💳 Payments & Subscription
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/chats/:chat_id/messages` | Send a message, triggers AI response |
+|:-------|:---------|:------------|
+| GET | `/api/v1/accounts/:id/payment/subscription` | Check current subscription status |
+| POST | `/api/v1/accounts/:id/payment/subscribe` | Initialize a new subscription |
+| POST | `/api/v1/accounts/:id/payment/cancel` | Cancel an active subscription |
 
 ---
 
-## 🤖 AI Diagnostic Flow
+## 📐 Response Example
+`GET /api/v1/chats/:id`
 
-The AI follows a structured 4-step flow:
-
-1. **Message 1** — User describes the problem. AI asks one targeted diagnostic question.
-2. **Message 2** — AI asks a second follow-up question.
-3. **Message 3** — AI asks one final question.
-4. **Message 4+** — AI delivers a full structured diagnosis:
+```json
+{
+  "chat": {
+    "id": "026063ef-830a-4a0e-8bb9-6966dd24c88f",
+    "account_id": "a02eb00e-e1b6-4490-a380-d09d5ad4b567",
+    "car_id": "26847986-b1ab-4847-8e7a-24557784f563",
+    "category": "TRANSMISSION",
+    "title": "The clutch is slipping or shaking.",
+    "created_at": "2026-04-01T14:29:22.949Z"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "My car shakes when I start in 1st gear..."
+    },
+    {
+      "role": "assistant",
+      "content": "Does it happen more on hills or flat ground?"
+    },
+    {
+      "role": "assistant",
+      "content": "## Most Likely Causes\n- Worn Clutch... \n## Severity\n- Medium..."
+    }
+  ]
+}
+```
 
 ---
 
-## 📦 Local Setup
+## 📦 Development Setup
 
-### Prerequisites
-- Ruby 3.4+
-- Docker (for PostgreSQL)
-- OpenAI API key
+### 1. Prerequisites
+Ensure you have the following installed:
+- **Ruby 3.4.0+**
+- **Bundler** (`gem install bundler`)
+- **Docker Desktop** (for PostgreSQL)
+- **OpenAI API Key**
 
-### 1. Clone the repo
+### 2. Clone & Install Dependencies
 ```bash
 git clone https://github.com/lukaarakic/mechanicai-backend.git
 cd mechanicai-backend
-```
-
-### 2. Install dependencies
-```bash
 bundle install
 ```
+### 3. Database Setup (Docker)
+Run the PostgreSQL container. If you already have a container named `mechanicai-db`, remove it first with `docker rm -f mechanicai-db`.
 
-### 3. Start PostgreSQL via Docker
 ```bash
 docker run --name mechanicai-db \
   -e POSTGRES_PASSWORD=postgres \
@@ -117,40 +121,27 @@ docker run --name mechanicai-db \
   -d postgres:16
 ```
 
-### 4. Configure credentials
-```bash
-rails credentials:edit
+### 4. Configuration & Secrets
+Rails 8 uses encrypted credentials. To edit them, you must specify an editor (like VS Code or Nano):
+
+Bash
+# For VS Code:
+```js
+# For VS Code:
+EDITOR="code --wait" rails credentials:edit
+
+# For Nano (Terminal):
+EDITOR="nano" rails credentials:edit
 ```
 
-Add:
-```yaml
-openai_api_key: your_openai_key_here
-jwt_secret_key: your_secret_here
+### 5. Initialize Database
 ```
-
-### 5. Configure database
-Update `config/database.yml` with your local PostgreSQL credentials.
-
-### 6. Run migrations
-```bash
-rails db:create db:migrate
+rails db:create
+rails db:migrate
 ```
-
-### 7. Start the server
-```bash
+### 6. Launch the API
+```
 rails s
 ```
 
-API available at `http://localhost:3000`
-
----
-
-## 🔐 Authentication
-
-All protected endpoints require a JWT token in the `Authorization` header:
-
-```
-Authorization: Bearer your_jwt_token_here
-```
-
-The token is returned in the response headers after a successful login.
+The API will be live at http://localhost:3000. You can verify it's running by visiting http://localhost:3000/up in your browser.

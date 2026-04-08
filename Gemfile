@@ -56,6 +56,10 @@ group :development, :test do
   gem "mcp", ">= 0.9.2", require: false
 end
 
+group :test do
+  gem "rspec-rails", "~> 6.0.0"
+end
+
 gem "rodauth-rails", "~> 2.1"
 # Enables Sequel to use Active Record's database connection
 gem "sequel-activerecord_connection", "~> 2.0", require: false

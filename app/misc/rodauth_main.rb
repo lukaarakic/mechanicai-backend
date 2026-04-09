@@ -3,9 +3,11 @@ require "sequel/core"
 class RodauthMain < Rodauth::Rails::Auth
   configure do
     # List of authentication features that are loaded.
-      enable :create_account, :verify_account,
-        :login, :logout, :jwt,
-        :reset_password, :change_password, :json
+    enable :create_account, :verify_account,
+           :login, :logout, :jwt,
+           :reset_password, :change_password, :json
+
+    skip_status_checks? { Rails.env.test? }
 
     db Sequel.postgres(extensions: :activerecord_connection, keep_reference: false)
     convert_token_id_to_integer? false

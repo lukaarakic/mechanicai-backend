@@ -65,6 +65,8 @@
     <orderEntry type="library" scope="PROVIDED" name="erb (v6.0.2, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="event_stream_parser (v1.0.0, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.5.6, ruby-3.4.9-p82) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="factory_bot_rails (v6.5.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday (v2.14.1, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-multipart (v1.2.0, ruby-3.4.9-p82) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-net_http (v3.4.2, ruby-3.4.9-p82) [gem]" level="application" />

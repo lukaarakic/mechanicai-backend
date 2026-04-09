@@ -279,7 +279,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
-    resend (1.0.1)
+    resend (1.1.0)
       httparty (>= 0.21.0)
     roda (3.102.0)
       rack
@@ -407,7 +407,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-attack (~> 6.8)
   rails (~> 8.1.2, >= 8.1.2.1)
-  resend (~> 1.0)
+  resend (~> 1.1)
   rodauth-rails (~> 2.1)
   rspec-rails (~> 6.0.0)
   rubocop-rails-omakase

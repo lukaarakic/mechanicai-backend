@@ -73,6 +73,6 @@ gem "tilt", "~> 2.4", require: false
 gem "jwt", "~> 2.9", require: false
 
 gem "pay", "~> 11.4"
-gem "paddle", "~> 2.7.1"
+gem "paddle", "~> 2.9"
 gem "resend", "~> 1.0"
 gem "jsonapi-serializer"

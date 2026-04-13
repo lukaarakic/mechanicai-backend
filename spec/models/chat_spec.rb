@@ -25,7 +25,7 @@ RSpec.describe Chat, type: :model do
       expect(chat).to_not be_valid
     end
 
-    it 'destorys messages when chat is destoryed' do
+    it 'destroys messages when chat is destroyed' do
       chat = create(:chat)
       create_list(:message, 3, chat: chat)
 

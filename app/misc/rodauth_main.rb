@@ -7,7 +7,7 @@ class RodauthMain < Rodauth::Rails::Auth
            :login, :logout, :jwt,
            :reset_password, :change_password, :json
 
-    skip_status_checks? { Rails.env.test? }
+    # skip_status_checks? { Rails.env.test? }
 
     db Sequel.postgres(extensions: :activerecord_connection, keep_reference: false)
     convert_token_id_to_integer? false

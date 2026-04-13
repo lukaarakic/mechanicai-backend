@@ -1,7 +1,7 @@
 class Api::V1::CarsController < ApplicationController
   def create
-    unless is_subscribed && current_account.cars.length != 0
-      render json: { error: "Upgrade to Pro plan add more cars" }, status: :unprocessable_entity
+    if !is_subscribed && current_account.cars.length >= 1
+      render json: { error: "Upgrade to Pro plan to add more cars" }, status: :unprocessable_entity
       return
     end
 
@@ -42,7 +42,7 @@ class Api::V1::CarsController < ApplicationController
   def destroy
     car = current_account.cars.find(params[:id])
     if car.destroy
-      render json: car, status: :ok
+      render json: car, status: :no_content
     end
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Car not found" }, status: :not_found

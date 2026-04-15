@@ -41,9 +41,9 @@ class Api::V1::ChatsController < ApplicationController
 
   def show
     chat = current_account.chats.find(params[:id])
-    render json: { chat: chat, messages: chat.messages }, status: :ok
+    render json: { chat: chat.slice(:id, :category, :title), messages: chat.messages }, status: :ok
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Chat not found" }, status: :unprocessable_entity
+    render json: { error: "Chat not found" }, status: :not_found
   end
 
   def index
@@ -57,10 +57,10 @@ class Api::V1::ChatsController < ApplicationController
   def destroy
     chat = current_account.chats.find(params[:id])
     chat.destroy!
-    render json: { success: true }, status: :ok
+    head :no_content
 
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Chat not found." }, status: :unprocessable_entity
+    render json: { error: "Chat not found." }, status: :not_found
   rescue ActiveRecord::RecordNotDestroyed
     render json: { error: "Something went wrong." }, status: :unprocessable_entity
   end

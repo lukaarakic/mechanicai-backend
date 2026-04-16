@@ -4,7 +4,7 @@ class RodauthMain < Rodauth::Rails::Auth
   configure do
     # List of authentication features that are loaded.
     enable :create_account, :verify_account,
-           :login, :logout, :jwt,
+           :login, :logout, :jwt, :close_account,
            :reset_password, :change_password, :json
 
     # skip_status_checks? { Rails.env.test? }

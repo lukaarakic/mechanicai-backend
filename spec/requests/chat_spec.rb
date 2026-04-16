@@ -35,6 +35,12 @@ RSpec.describe 'Chat' do
       expect(response).to have_http_status(:not_found)
     end
 
+    it 'returns 404 when car belongs to another account' do
+      other_car = create(:car)
+      post '/api/v1/chats', headers: headers, params: { chat: { car_id: other_car.id, message: "noise" } }
+      expect(response).to have_http_status(:not_found)
+    end
+
     it 'returns 422 when message is blank' do
       post '/api/v1/chats', headers: headers, params: { chat: { car_id: car.id, message: nil } }
       expect(response).to have_http_status(422)
@@ -137,7 +143,6 @@ RSpec.describe 'Chat' do
       chat
       get "/api/v1/chats/#{chat.id}", headers: headers
 
-      puts json_body
       expect(response).to have_http_status(:ok)
       expect(json_body).to have_key('chat')
       expect(json_body['chat']).to have_key('id')
@@ -146,10 +151,17 @@ RSpec.describe 'Chat' do
       expect(json_body).to have_key('messages')
     end
 
-    it 'returns error when accessing others chat by id' do
+    it 'returns 404 when accessing others chat by id' do
       other_chat = create(:chat)
 
       get "/api/v1/chats/#{other_chat.id}", headers: headers
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)['error']).to eq("Chat not found")
+    end
+
+    it 'returns 404 when id is non-existent' do
+      get '/api/v1/chats/99999', headers: headers
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)['error']).to eq("Chat not found")
@@ -178,6 +190,13 @@ RSpec.describe 'Chat' do
       delete "/api/v1/chats/#{other_chat.id}", headers: headers
 
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns 404 when id is non-existent' do
+      delete '/api/v1/chats/99999', headers: headers
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)['error']).to eq("Chat not found.")
     end
   end
 end

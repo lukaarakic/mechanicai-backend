@@ -18,12 +18,22 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def onboard
+    if current_account.onboarding_done?
+      render json: { error: "Already onboarded" }, status: :unprocessable_entity
+      return
+    end
+
+    unless onboard_params[:profile].present? && onboard_params[:car].present?
+      render json: { error: "Profile and car details are required" }, status: :unprocessable_entity
+      return
+    end
+
     ActiveRecord::Base.transaction do
       current_account.update!(onboard_params[:profile])
       current_account.cars.create!(onboard_params[:car])
     end
 
-    render json: { success: true }, status: :ok
+    render json: current_account_payload, status: :ok
 
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.warn("Onboarding failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")

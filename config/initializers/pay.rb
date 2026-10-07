@@ -4,7 +4,7 @@
 # Point the Paddle notification destination at POST /pay/webhooks/paddle_billing.
 Pay.setup do |config|
   config.business_name = "DashClue"
-  config.support_email = ENV.fetch("SUPPORT_EMAIL", "support@lukarakic.me")
+  config.support_email = ENV.fetch("SUPPORT_EMAIL", "dashclue.contact@gmail.com")
   config.enabled_processors = [ :paddle_billing ]
 
   # Paddle sends its own receipts and billing emails.

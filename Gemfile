@@ -16,8 +16,8 @@ gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-# gem "solid_cache"
-# gem "solid_queue"
+gem "solid_cache"
+gem "solid_queue"
 # gem "solid_cable"
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -36,7 +36,7 @@ gem "image_processing", "~> 1.2"
 # gem "rack-cors"
 
 gem "ruby-openai"
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 gem "rack-attack", "~> 6.8"
 gem "action_text-trix", ">= 2.1.18"
 
@@ -58,8 +58,8 @@ end
 
 group :test do
   gem "rspec-rails", "~> 6.0.0"
-  gem 'factory_bot_rails'
-  gem 'faker'
+  gem "factory_bot_rails"
+  gem "faker"
 end
 
 gem "rodauth-rails", "~> 2.1"
@@ -75,4 +75,3 @@ gem "jwt", "~> 2.9", require: false
 gem "pay", "~> 11.4"
 gem "paddle", "~> 2.7.1"
 gem "resend", "~> 1.0"
-gem "jsonapi-serializer"

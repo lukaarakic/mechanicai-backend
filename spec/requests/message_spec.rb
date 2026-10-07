@@ -60,11 +60,41 @@ RSpec.describe 'Messages' do
       expect(json_body['error']).to eq('Message content is too long')
     end
 
+    it 'returns 403 when a free chat used all its messages' do
+      create_list(:message, Chat::FREE_USER_MESSAGES_PER_CHAT, chat: chat, role: 'user')
+
+      post "/api/v1/chats/#{chat.id}/messages", headers: headers, params: valid_params
+
+      expect(response).to have_http_status(:forbidden)
+      expect(service_double).not_to have_received(:call)
+    end
+
+    it 'lets subscribers keep chatting past the free cap' do
+      allow_any_instance_of(ApplicationController).to receive(:is_subscribed).and_return(true)
+      create_list(:message, Chat::FREE_USER_MESSAGES_PER_CHAT, chat: chat, role: 'user')
+
+      post "/api/v1/chats/#{chat.id}/messages", headers: headers, params: valid_params
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it 'accepts short answers' do
+      post "/api/v1/chats/#{chat.id}/messages", headers: headers, params: { content: 'No' }
+      expect(response).to have_http_status(:created)
+    end
+
     it 'returns 500 when DiagnosticMessageService raises' do
       allow(service_double).to receive(:call).and_raise(StandardError, "OpenAI timeout")
       post "/api/v1/chats/#{chat.id}/messages", headers: headers, params: valid_params
       expect(response).to have_http_status(:internal_server_error)
       expect(json_body['error']).to eq('Unable to process message')
+    end
+
+    it 'returns 422 with the reason when the message is off topic' do
+      allow(service_double).to receive(:call).and_raise(DiagnosticMessageService::OffTopicError, DiagnosticMessageService::OFF_TOPIC_MESSAGE)
+      post "/api/v1/chats/#{chat.id}/messages", headers: headers, params: valid_params
+      expect(response).to have_http_status(422)
+      expect(json_body['error']).to eq(DiagnosticMessageService::OFF_TOPIC_MESSAGE)
     end
   end
 end

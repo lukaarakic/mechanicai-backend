@@ -1,6 +1,6 @@
-require "openai"
-
 class Api::V1::MessagesController < ApplicationController
+  MAX_CONTENT_LENGTH = 4000
+
   def create
     chat = current_account.chats.find(params[:chat_id])
 
@@ -10,8 +10,13 @@ class Api::V1::MessagesController < ApplicationController
       return
     end
 
-    if content.length > 4000
+    if content.length > MAX_CONTENT_LENGTH
       render json: { error: "Message content is too long" }, status: :unprocessable_entity
+      return
+    end
+
+    if !is_subscribed && chat.free_messages_remaining.zero?
+      render json: { error: "Free chats are limited to #{Chat::FREE_USER_MESSAGES_PER_CHAT} messages. Upgrade to Pro to keep asking." }, status: :forbidden
       return
     end
 
@@ -20,6 +25,8 @@ class Api::V1::MessagesController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Chat not found" }, status: :not_found
+  rescue DiagnosticMessageService::OffTopicError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   rescue StandardError => e
     Rails.logger.error("Message creation failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")
     render json: { error: "Unable to process message" }, status: :internal_server_error

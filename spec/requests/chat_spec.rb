@@ -5,9 +5,9 @@ RSpec.describe 'Chat' do
   let(:car) { create(:car, account: account) }
   let(:chat) { create(:chat, account: account, car: car) }
   let(:headers) { auth_headers(account) }
+  let(:service_double) { double('DiagnosticMessageService') }
 
   before do
-    service_double = double('DiagnosticMessageService')
     allow(DiagnosticMessageService).to receive(:new).and_return(service_double)
     allow(service_double).to receive(:call)
   end
@@ -53,6 +53,27 @@ RSpec.describe 'Chat' do
       expect(json_body['error']).to eq('Message content is too long')
     end
 
+    it 'removes the chat and keeps the quota when the AI call fails' do
+      allow(service_double).to receive(:call).and_raise(Faraday::TimeoutError)
+
+      expect {
+        post '/api/v1/chats', headers: headers, params: valid_params
+      }.not_to change(Chat, :count)
+
+      expect(response).to have_http_status(:internal_server_error)
+    end
+
+    it 'rejects an off-topic first message without creating a chat' do
+      allow(service_double).to receive(:call).and_raise(DiagnosticMessageService::OffTopicError, DiagnosticMessageService::OFF_TOPIC_MESSAGE)
+
+      expect {
+        post '/api/v1/chats', headers: headers, params: valid_params
+      }.not_to change(Chat, :count)
+
+      expect(response).to have_http_status(422)
+      expect(json_body['error']).to eq(DiagnosticMessageService::OFF_TOPIC_MESSAGE)
+    end
+
     context 'when not subscribed' do
       before { allow_any_instance_of(ApplicationController).to receive(:is_subscribed).and_return(false) }
 
@@ -85,10 +106,28 @@ RSpec.describe 'Chat' do
   end
 
   describe 'GET /api/v1/chats' do
+    before { allow_any_instance_of(ApplicationController).to receive(:is_subscribed).and_return(true) }
+
     it 'returns 401 when unauthenticated' do
       get '/api/v1/chats'
 
       expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 403 for free accounts' do
+      allow_any_instance_of(ApplicationController).to receive(:is_subscribed).and_return(false)
+      get '/api/v1/chats', headers: headers
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'paginates with the before param' do
+      older = create(:chat, account: account, car: car, created_at: 2.days.ago)
+      newer = create(:chat, account: account, car: car, created_at: 1.day.ago)
+
+      get "/api/v1/chats?before=#{CGI.escape(newer.created_at.iso8601(6))}", headers: headers
+
+      expect(json_body.map { |c| c['id'] }).to eq([ older.id ])
     end
 
     it 'returns all chats when authenticated' do
@@ -137,6 +176,24 @@ RSpec.describe 'Chat' do
       get "/api/v1/chats/#{chat.id}"
 
       expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns messages oldest first and the free messages remaining' do
+      create(:message, chat: chat, role: 'assistant', content: 'second', created_at: 1.minute.ago)
+      create(:message, chat: chat, role: 'user', content: 'first', created_at: 2.minutes.ago)
+
+      get "/api/v1/chats/#{chat.id}", headers: headers
+
+      expect(json_body['messages'].map { |m| m['content'] }).to eq(%w[first second])
+      expect(json_body['messages_remaining']).to eq(Chat::FREE_USER_MESSAGES_PER_CHAT - 1)
+    end
+
+    it 'includes the structured diagnosis on the diagnosing reply' do
+      create(:message, chat: chat, role: 'assistant', content: '## Most Likely Causes', diagnosis: { 'summary' => 'Squeal' })
+
+      get "/api/v1/chats/#{chat.id}", headers: headers
+
+      expect(json_body['messages'].first['diagnosis']).to eq('summary' => 'Squeal')
     end
 
     it 'returns chat by id with correct structure' do

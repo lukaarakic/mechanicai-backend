@@ -13,6 +13,18 @@ RSpec.describe 'Auth' do
       end
     end
 
+    context 'when already logged in' do
+      it 'returns 400' do
+        post '/api/v1/login', params: { email: account.email, password: 'password' }, as: :json
+        token = response.headers['Authorization']
+
+        post '/api/v1/login', params: { email: account.email, password: 'password' }, as: :json,
+          headers: { 'Authorization' => token }
+
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+
     context 'with invalid credentials' do
       it 'returns unauthorized' do
         post '/api/v1/login', params: { email: account.email, password: 'wrong' }, as: :json

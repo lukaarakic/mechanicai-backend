@@ -29,7 +29,7 @@ RSpec.describe Chat, type: :model do
       chat = create(:chat)
       create_list(:message, 3, chat: chat)
 
-      expect{ chat.destroy }.to change(Message, :count).by(-3)
+      expect { chat.destroy }.to change(Message, :count).by(-3)
     end
   end
 

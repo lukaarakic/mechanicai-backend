@@ -1,12 +1,11 @@
 class Api::V1::CarsController < ApplicationController
   def create
-    if !is_subscribed && current_account.cars.length >= 1
+    if !is_subscribed && current_account.cars.count >= 1
       render json: { error: "Upgrade to Pro plan to add more cars" }, status: :unprocessable_entity
       return
     end
 
-    car = Car.new(car_params)
-    car.account_id = rodauth.account_id
+    car = current_account.cars.new(car_params)
 
     if car.save
       render json: car, status: :created
@@ -41,9 +40,8 @@ class Api::V1::CarsController < ApplicationController
 
   def destroy
     car = current_account.cars.find(params[:id])
-    if car.destroy
-      render json: car, status: :no_content
-    end
+    car.destroy!
+    head :no_content
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Car not found" }, status: :not_found
   end
@@ -51,6 +49,6 @@ class Api::V1::CarsController < ApplicationController
   private
 
   def car_params
-    params.expect(car: [ :make, :model, :year, :power, :size, :default_car ])
+    params.expect(car: [ :make, :model, :year, :power, :size ])
   end
 end

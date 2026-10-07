@@ -11,6 +11,8 @@ class ApplicationController < ActionController::API
   end
 
   def is_subscribed
-    @subscribed = current_account.payment_processor.subscribed?
+    return @subscribed if defined?(@subscribed)
+
+    @subscribed = current_account.subscribed?
   end
 end

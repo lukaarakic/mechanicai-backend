@@ -34,7 +34,6 @@ RSpec.describe 'Cars API', type: :request do
       get "/api/v1/cars/#{other_car.id}", headers: headers
 
       expect(response).to have_http_status(:not_found)
-
     end
   end
 
@@ -62,6 +61,13 @@ RSpec.describe 'Cars API', type: :request do
 
       it 'returns 422 with invalid params' do
         post '/api/v1/cars', headers: headers, params: { car: { make: nil } }
+
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns 422 instead of crashing on out-of-range numbers' do
+        post '/api/v1/cars', headers: headers,
+          params: { car: { make: 'BMW', model: 'M3', year: 2020, size: 99_999_999_999, power: 400 } }
 
         expect(response).to have_http_status(422)
       end
@@ -141,7 +147,6 @@ RSpec.describe 'Cars API', type: :request do
         delete "/api/v1/cars/#{other_car.id}", headers: headers
 
         expect(response).to have_http_status(404)
-
       end
     end
   end

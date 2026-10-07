@@ -6,11 +6,10 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_user
-
     if current_account.update(update_params)
       render json: current_account_payload, status: :ok
     else
-      render json: { error: "Something went wrong" }, status: :unprocessable_entity
+      render json: { error: "Something went wrong", errors: current_account.errors.to_hash(true) }, status: :unprocessable_entity
     end
 
   rescue ActiveRecord::RecordNotFound
@@ -29,7 +28,7 @@ class Api::V1::UsersController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
-      current_account.update!(onboard_params[:profile])
+      current_account.update!(onboard_params[:profile].merge(onboarding_done: true))
       current_account.cars.create!(onboard_params[:car])
     end
 
@@ -37,21 +36,22 @@ class Api::V1::UsersController < ApplicationController
 
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.warn("Onboarding failed for account=#{rodauth.account_id}: #{e.class} #{e.message}")
-    render json: { error: "Unable to complete onboarding" }, status: :unprocessable_entity
+    render json: { error: "Unable to complete onboarding", errors: e.record.errors.to_hash(true) }, status: :unprocessable_entity
   end
 
   private
   def current_account_payload
-    subscribed = current_account.payment_processor.subscribed?
-
-    current_account.as_json(only: [ :id, :first_name, :last_name, :email, :avatar, :onboarding_done ]).merge(subscribed: subscribed)
+    current_account.as_json(only: [ :id, :first_name, :last_name, :email, :avatar, :onboarding_done, :distance_unit ]).merge(
+      subscribed: is_subscribed,
+      free_chats_remaining: is_subscribed ? nil : current_account.free_chats_remaining
+    )
   end
 
   def onboard_params
-    params.permit(profile: [ :first_name, :last_name, :avatar, :onboarding_done ], car: [ :make, :model, :year, :power, :size ])
+    params.permit(profile: [ :first_name, :last_name, :avatar ], car: [ :make, :model, :year, :power, :size ])
   end
 
   def update_params
-    params.permit(:first_name, :last_name )
+    params.permit(:first_name, :last_name, :distance_unit)
   end
 end

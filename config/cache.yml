@@ -11,6 +11,6 @@ development:
 test:
   <<: *default
 
+# Uses the primary database (tables created by a regular migration).
 production:
-  database: cache
   <<: *default

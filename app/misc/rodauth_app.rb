@@ -1,23 +1,16 @@
 class RodauthApp < Rodauth::Rails::App
+  # Only parse bodies sent as application/json (Rodauth's default matches any
+  # content type containing "json").
+  plugin :json_parser, content_type_regexp: %r{\Aapplication/json\b}i
+
   # primary configuration
   configure RodauthMain
 
-  # secondary configuration
-  # configure RodauthAdmin, :admin
-
   route do |r|
+    # Reject JWTs whose server-side session was revoked or expired
+    # (logout, password change/reset, account closure, inactivity).
+    rodauth.check_active_session
+
     r.rodauth # route rodauth requests
-
-    # ==> Authenticating requests
-    # Call `rodauth.require_account` for requests that you want to
-    # require authentication for. For example:
-    #
-    # # authenticate /dashboard/* and /account/* requests
-    # if r.path.start_with?("/dashboard") || r.path.start_with?("/account")
-    #   rodauth.require_account
-    # end
-
-    # ==> Secondary configurations
-    # r.rodauth(:admin) # route admin rodauth requests
   end
 end

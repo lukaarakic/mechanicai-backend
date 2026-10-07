@@ -1,8 +1,8 @@
-# 🛠️ MechanicAI — Backend API
+# 🛠️ DashClue — Backend API
 
 ### *AI-Driven Vehicle Diagnostics — Rails 8 API*
 
-**MechanicAI** is a professional-grade Rails 8 API powering an intelligent conversational vehicle diagnostic platform. By combining **GPT-5** with a targeted diagnostic state machine and a subscription-based model, it provides users with high-accuracy vehicle troubleshooting, severity assessments, and repair cost estimations.
+**DashClue** is a professional-grade Rails 8 API powering an intelligent conversational vehicle diagnostic platform. By combining **GPT-5** with a targeted diagnostic state machine and a subscription-based model, it provides users with high-accuracy vehicle troubleshooting, severity assessments, and repair cost estimations.
 
 ---
 

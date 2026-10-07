@@ -5,7 +5,8 @@ class RodauthMain < Rodauth::Rails::Auth
     # List of authentication features that are loaded.
     enable :create_account, :verify_account,
            :login, :logout, :jwt, :close_account,
-           :reset_password, :change_password, :json
+           :reset_password, :change_password, :json,
+           :active_sessions
 
     # skip_status_checks? { Rails.env.test? }
 
@@ -13,7 +14,7 @@ class RodauthMain < Rodauth::Rails::Auth
     convert_token_id_to_integer? false
 
 
-    email_from "MechanicAI <noreply@lukarakic.me>"
+    email_from "DashClue <noreply@lukarakic.me>"
     base_url do
       ENV["FRONTEND_URL"]
     end
@@ -33,11 +34,16 @@ class RodauthMain < Rodauth::Rails::Auth
     # reset_password_table :user_password_reset_keys
 
     # The secret key used for hashing public-facing tokens for various features.
-    # Defaults to Rails `secret_key_base`, but you can use your own secret key.
-    # hmac_secret "2a744ff713027a68c1c7f7f03458de6da2c045d846e4ecf26f41ad83b0773bc992d38e0f4efead2a5a447970551ceb1cb8e4cb5bbd01115dd0bb8021e6c4acb7"
+    # Defaults to Rails `secret_key_base`.
 
     # Set JWT secret, which is used to cryptographically protect the token.
-    jwt_secret { ENV["JWT_SECRET"] }
+    jwt_secret { ENV.fetch("JWT_SECRET") }
+
+    # JWTs are stateless, so every token is backed by a row in
+    # account_active_session_keys. Logout, password change/reset and account
+    # closure delete those rows, which revokes the token server-side.
+    session_inactivity_deadline 30.days.to_i
+    session_lifetime_deadline 90.days.to_i
 
     # Accept only JSON requests.
     only_json? true
@@ -79,8 +85,12 @@ class RodauthMain < Rodauth::Rails::Auth
     # Delete the account record when the user has closed their account.
     # delete_account_on_close? true
 
-    # Redirect to the app from login and registration pages if already logged in.
-    # already_logged_in { redirect login_redirect }
+    # Reject login/registration requests from a client that already has a session.
+    already_logged_in do
+      set_response_error_status(400)
+      json_response[json_response_error_key] = "You are already logged in"
+      return_json_response
+    end
 
     # ==> Emails
     send_email do |email|
@@ -129,10 +139,26 @@ class RodauthMain < Rodauth::Rails::Auth
     #   Profile.create!(account_id: account_id, name: param("name"))
     # end
 
-    # Do additional cleanup after the account is closed.
-    # after_close_account do
-    #   Profile.find_by!(account_id: account_id).destroy
-    # end
+    # Sign out every other device when the password changes.
+    after_change_password do
+      remove_all_active_sessions_except_current
+    end
+
+    # Stop billing before the account is closed. Raising here rolls back the
+    # close, so a user is never left paying for a closed account.
+    before_close_account do
+      begin
+        AccountClosure.new(Account.find(account_id)).cancel_billing!
+      rescue StandardError => e
+        Rails.logger.error("Billing cancel failed on close for account=#{account_id}: #{e.class} #{e.message}")
+        throw_error_status(422, "password", "We couldn't cancel your subscription. Please try again or contact support.")
+      end
+    end
+
+    # Remove personal data once the account is closed.
+    after_close_account do
+      AccountClosure.new(Account.find(account_id)).scrub_data!
+    end
 
     # ==> Deadlines
     # Change default deadlines for some actions.

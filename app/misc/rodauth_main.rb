@@ -14,7 +14,7 @@ class RodauthMain < Rodauth::Rails::Auth
     convert_token_id_to_integer? false
 
 
-    email_from "DashClue <noreply@lukarakic.me>"
+    email_from "DashClue <noreply@dashclue.com>"
     base_url do
       ENV["FRONTEND_URL"]
     end

@@ -33,3 +33,5 @@
 /config/*.key
 
 commit_history.txt
+# Generated short-video scripts (drafts, regenerate any time)
+/marketing/tiktok/

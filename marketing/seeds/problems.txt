@@ -1,0 +1,44 @@
+# Car problems for /problems/[slug] pages: slug | how drivers search it.
+# In publishing order: the first 15 are the launch batch.
+car-wont-start-clicking | Car won't start, clicking noise
+car-shaking-when-braking | Car shaking when braking
+steering-wheel-shakes-at-high-speed | Steering wheel shakes at highway speed
+check-engine-light-flashing | Check engine light flashing
+car-overheating | Car overheating
+grinding-noise-when-braking | Grinding noise when braking
+squealing-brakes | Brakes squealing
+clicking-noise-when-turning | Clicking noise when turning
+car-pulls-to-one-side | Car pulls to one side
+burning-smell-from-car | Burning smell from the car
+ac-blowing-warm-air | AC blowing warm air
+battery-light-on | Battery light on while driving
+rough-idle | Rough idle
+car-stalls-at-stop | Car stalls when stopping
+transmission-slipping | Transmission slipping
+car-wont-start-no-click | Car won't start, no click or sound
+car-cranks-but-wont-start | Car cranks but won't start
+car-shakes-at-idle | Car shakes at idle
+check-engine-light-on | Check engine light on
+car-overheating-ac-on | Car overheats when AC is on
+spongy-brake-pedal | Brake pedal feels soft or spongy
+whining-noise-when-accelerating | Whining noise when accelerating
+humming-noise-while-driving | Humming noise that gets louder with speed
+squealing-noise-when-starting | Squealing noise when starting the car
+knocking-noise-from-engine | Knocking noise from the engine
+rotten-egg-smell | Car smells like rotten eggs
+gas-smell-in-car | Gas smell in the car
+sweet-smell-from-car | Sweet smell from the car (coolant)
+heater-blowing-cold-air | Heater blowing cold air
+oil-pressure-light-on | Oil pressure light on
+abs-light-on | ABS light on
+traction-control-light-on | Traction control light on
+tpms-light-on | Tire pressure light on
+car-hesitates-when-accelerating | Car hesitates when accelerating
+loss-of-power-when-accelerating | Loss of power when accelerating
+hard-shifting | Transmission shifts hard or late
+white-smoke-from-exhaust | White smoke from the exhaust
+blue-smoke-from-exhaust | Blue smoke from the exhaust
+black-smoke-from-exhaust | Black smoke from the exhaust
+car-leaking-oil | Car leaking oil
+car-leaking-coolant | Car leaking coolant
+bad-gas-mileage | Gas mileage suddenly worse

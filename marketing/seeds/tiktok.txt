@@ -1,0 +1,7 @@
+# One video per line: symptom | car (optional) | format (optional, rotates when empty)
+# Formats: symptom, quote_check, code_of_the_day, live_diagnosis, stop_driving
+Steering wheel shakes at 60 mph | 2016 Toyota Camry | symptom
+Catalytic converter replacement quoted at $1,800 for code P0420 | 2012 Honda Accord | quote_check
+P0420 | | code_of_the_day
+Clicking when turning the wheel all the way, gets worse in parking lots | 2015 Ford Escape | live_diagnosis
+Temperature gauge climbing into the red on the highway | | stop_driving
